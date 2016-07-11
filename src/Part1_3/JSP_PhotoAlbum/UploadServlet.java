@@ -41,18 +41,18 @@ public class UploadServlet extends HttpServlet {
 		}	
 	}
 
-	private void copyBytes(InputStream inputStream, ByteArrayOutputStream byteArrayOutputStream)
+	private void copyBytes(InputStream inputStream, OutputStream outputStream)
 	throws IOException
 	{
 		int index;
 		
 		while((index=inputStream.read()) != -1)
 		{
-			byteArrayOutputStream.write(index);
+			outputStream.write(index);
 		}	
 		
-		inputStream          .close();
-		byteArrayOutputStream.close();
+		inputStream .close();
+		outputStream.close();
 	}
 
 }
