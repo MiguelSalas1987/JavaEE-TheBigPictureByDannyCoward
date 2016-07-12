@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-@WebServlet(description = "uploads the photos", urlPatterns = { "/UploadServer" })
+@WebServlet(name = "UploadServlet", urlPatterns = { "/UploadServlet" })
+@MultipartConfig()
 public class UploadServlet extends HttpServlet {
- 
-	private static final long serialVersionUID = 1L;
+
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) 
@@ -28,17 +29,28 @@ public class UploadServlet extends HttpServlet {
 		   req.getContentType().startsWith("multipart/form-data"))
 		{
 			this.uploadPhoto(req, photoAlbum);
-		}	
+		}
+		res.sendRedirect("./PA_album.jsp");
 	}
 
 	private void uploadPhoto(HttpServletRequest req, PhotoAlbum photoAlbum)
 	throws IOException, ServletException
 	{
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		String filename = null;
+		
 		for(Part part:  req.getParts())
 		{
 			this.copyBytes(part.getInputStream(), byteArrayOutputStream);
+			filename = part.getSubmittedFileName();
+		}
+		
+		if (!"".equals(filename))
+		{
+			String photoName = filename.substring(0, filename.lastIndexOf("."));
+			photoAlbum.addPhoto(photoName, byteArrayOutputStream.toByteArray());
 		}	
+		
 	}
 
 	private void copyBytes(InputStream inputStream, OutputStream outputStream)

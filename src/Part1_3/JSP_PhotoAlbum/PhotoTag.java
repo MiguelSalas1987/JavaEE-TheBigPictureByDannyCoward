@@ -27,8 +27,8 @@ public class PhotoTag extends SimpleTagSupport  {
 	public void doTag() throws JspException, IOException 
 	{
 		JspWriter out =getJspContext().getOut();
-		out.println("<a href='photo.jsp?photo="+index+"'>");
-		out.println("<img src=photo.jsp?photo="+index+"' alt='photo'>"+
+		out.println("<a href='PA_Photo.jsp?photo="+index+"'>");
+		out.println("<img src='PA_Photo.jsp?photo="+index+"' alt='photo' "+
 				    "height='"+this.height+"' width='"+this.width+"'>");
 		out.println("</a>");
 	}

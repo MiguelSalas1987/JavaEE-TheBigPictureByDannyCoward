@@ -11,4 +11,4 @@
 	{
 		binaryOut.write(bytes[i]);
 	}	
-%>>
+%>
